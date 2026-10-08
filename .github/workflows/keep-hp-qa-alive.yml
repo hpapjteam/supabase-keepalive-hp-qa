@@ -20,7 +20,7 @@ jobs:
             --location \
             --write-out "\nHTTP Status: %{http_code}\n" \
             "https://ogklfczlceubykreddib.supabase.co/rest/v1/countries?select=id&limit=1" \
-            -H "apikey: ${{ secrets.HPQA_SUPABASE_KEY }}" \
-            -H "Authorization: Bearer ${{ secrets.HPQA_SUPABASE_KEY }}"
+            -H "apikey: sb_publishable_6CIeecJYveoZLmUjBbLCiw_kMJm-lFM" \
+            -H "Authorization: Bearer sb_publishable_6CIeecJYveoZLmUjBbLCiw_kMJm-lFM"
 
           echo "hp-qa Supabase ping completed successfully."
