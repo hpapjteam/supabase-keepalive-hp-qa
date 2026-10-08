@@ -1,0 +1,39 @@
+name: Keep hp-qa Repository Active
+
+on:
+  schedule:
+    - cron: "37 1 * * 0"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  keep-repository-active:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v5
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Update Keep Alive File
+        run: |
+          echo "Last updated: $(date -u)" > keep_alive.txt
+
+      - name: Commit Changes
+        run: |
+          git add keep_alive.txt
+          git diff --cached --quiet || git commit -m "Weekly hp-qa repository keep-alive"
+
+      - name: Sync with Remote
+        run: |
+          git pull --rebase origin main
+
+      - name: Push Changes
+        run: |
+          git push origin main
