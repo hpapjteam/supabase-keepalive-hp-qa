@@ -1,0 +1,26 @@
+name: Keep hp-qa Supabase Active
+
+on:
+  schedule:
+    - cron: "37 */6 * * *"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Ping hp-qa Supabase
+        run: |
+          curl --fail \
+            --retry 5 \
+            --retry-delay 10 \
+            --connect-timeout 15 \
+            --max-time 60 \
+            --location \
+            --write-out "\nHTTP Status: %{http_code}\n" \
+            "https://ogklfczlceubykreddib.supabase.co/rest/v1/countries?select=id&limit=1" \
+            -H "apikey: YOUR_HP_QA_PUBLISHABLE_KEY" \
+            -H "Authorization: Bearer YOUR_HP_QA_PUBLISHABLE_KEY"
+
+          echo "hp-qa Supabase ping completed successfully."
